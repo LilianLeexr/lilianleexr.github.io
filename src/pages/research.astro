@@ -1,0 +1,80 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import site from "../data/site.json";
+import { getCollection, getEntryBySlug } from "astro:content";
+
+const page = await getEntryBySlug("pages", "research");
+const { Content } = await page.render();
+
+const projects = await getCollection("projects");
+const sorted = [...projects].sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<Layout title={`${page.data.title} — ${site.name}`} description={page.data.summary}>
+  <div class="wrap">
+    <SiteHeader />
+
+    <main class="content">
+      <header class="head">
+        <h1>{page.data.title}</h1>
+        <p class="sub">{page.data.summary}</p>
+      </header>
+
+      <article class="prose">
+        <Content />
+      </article>
+
+      <section class="projects">
+        {sorted.map((project) => (
+          <article class="project">
+            <div class="projHead">
+              <div>
+                <h2><a href={`/projects/${project.slug}`}>{project.data.title}</a></h2>
+                <p class="desc">
+                  {project.data.role} · {project.data.affiliation} · {project.data.period}
+                </p>
+              </div>
+            </div>
+
+            <div class="meta">
+              <span>Tags: {project.data.tags.join(", ")}</span>
+              <span>Tech: {project.data.key_tech.join(", ")}</span>
+            </div>
+          </article>
+        ))}
+      </section>
+    </main>
+
+    <SiteFooter />
+  </div>
+
+  <style>
+    .wrap { max-width: var(--max); margin: 0 auto; width: 100%; }
+    .content { max-width: 860px; }
+    .head { padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
+    h1 { margin: 0 0 6px; font-size: 34px; line-height: 1.15; letter-spacing: -0.01em; }
+    .sub { margin: 0; color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 14px; }
+
+    .prose { margin-bottom: 28px; }
+    .prose :global(p) { margin: 0.9em 0; }
+
+    .projects { display: grid; gap: 18px; }
+    .project { border: 1px solid var(--border); padding: 16px; }
+    .projHead { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+    .projHead h2 { margin: 0 0 6px; font-size: 20px; }
+    .projHead a { text-decoration: none; }
+    .projHead a:hover { text-decoration: underline; }
+    .desc { margin: 0; color: var(--muted); font-size: 14px; }
+    .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      font-family: ui-sans-serif, system-ui;
+      margin-top: 8px;
+    }
+  </style>
+</Layout>

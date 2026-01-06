@@ -1,46 +1,51 @@
-# Astro Starter Kit: Basics
+# Personal Academic Homepage
+
+Minimal, content-first academic homepage built with Astro and deployed to GitHub Pages.
+
+## Run locally
 
 ```sh
-npm create astro@latest -- --template basics
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Preview build:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```sh
+npm run build
+npm run preview
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Update content (no layout edits)
 
-## 🧞 Commands
+All editable content lives in `src/content/` and `src/data/`.
 
-All commands are run from the root of the project, from a terminal:
+### About
+- Edit `src/content/pages/about.md`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### Projects / Research
+- Add or edit Markdown files in `src/content/projects/`.
+- The frontmatter schema is defined in `src/content/config.ts`.
 
-## 👀 Want to learn more?
+### Publications
+- If not created yet, add `src/content/pages/publications.md` and a matching page at `src/pages/publications.astro` (copy `src/pages/research.astro` and simplify).
+- Then update `src/content/pages/publications.md` for content.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+### CV
+- Recommended: put the PDF in `public/` (e.g., `public/cv.pdf`).
+- Optionally add a `src/content/pages/cv.md` and a simple page `src/pages/cv.astro` with a link to the PDF.
+
+### Site-wide info
+- Update name, tagline, social links, and footer note in `src/data/site.json`.
+
+## GitHub Pages deployment
+- Workflow: `.github/workflows/deploy.yml`.
+- On push to `main`, GitHub Actions builds and deploys `dist/` to Pages.
+- `SITE_URL` and `BASE_PATH` are injected at build time for correct routing under `username.github.io` or `username.github.io/repo`.
+
+## Common issues
+- **404 on Pages:** confirm GitHub Pages is set to “GitHub Actions” and that `BASE_PATH` matches the repo name for project pages.
+- **Build fails after editing frontmatter:** ensure fields match the schema in `src/content/config.ts` (types + required fields).
+- **New page not showing in nav:** add it to `src/data/site.json` under `nav`.
+- **Local build ok, Pages broken:** check `astro.config.mjs` for `site`/`base` and ensure the workflow passes `SITE_URL`/`BASE_PATH`.
+

@@ -1,0 +1,66 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import site from "../data/site.json";
+import { getCollection, getEntryBySlug } from "astro:content";
+
+const page = await getEntryBySlug("pages", "technotes");
+const { Content } = await page.render();
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft && data.category === "TechNotes"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title={`${page.data.title} — ${site.name}`} description={page.data.summary}>
+  <div class="wrap">
+    <SiteHeader />
+
+    <main class="content">
+      <header class="head">
+        <h1>{page.data.title}</h1>
+        <p class="sub">{page.data.summary}</p>
+      </header>
+
+      <article class="prose">
+        <Content />
+      </article>
+
+      <section class="feed">
+        {posts.map((post) => (
+          <article class="post">
+            <div class="meta">
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toISOString().slice(0, 10)}
+              </time>
+            </div>
+            <h2 class="title">
+              <a href={`/posts/${post.slug}`}>{post.data.title}</a>
+            </h2>
+            {post.data.description && <p class="desc">{post.data.description}</p>}
+          </article>
+        ))}
+      </section>
+    </main>
+
+    <SiteFooter />
+  </div>
+
+  <style>
+    .wrap { max-width: var(--max); margin: 0 auto; width: 100%; }
+    .content { max-width: 760px; }
+    .head { padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
+    h1 { margin: 0 0 6px; font-size: 34px; line-height: 1.15; letter-spacing: -0.01em; }
+    .sub { margin: 0; color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 14px; }
+
+    .prose { margin-bottom: 26px; }
+    .prose :global(p) { margin: 0.9em 0; }
+
+    .post { padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .meta { color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 13px; }
+    .title { margin: 8px 0 6px; font-size: 22px; line-height: 1.25; }
+    .title a { text-decoration: none; }
+    .title a:hover { text-decoration: underline; }
+    .desc { margin: 0; color: var(--muted); font-size: 15px; }
+  </style>
+</Layout>

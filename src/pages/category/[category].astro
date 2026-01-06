@@ -1,0 +1,75 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import site from "../../data/site.json";
+import { getCollection } from "astro:content";
+import { categoryOptions } from "../../content/config";
+
+const slugify = (s) => String(s || "").trim().toLowerCase().replace(/\s+/g, "-");
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+
+  const categories = new Set([
+    ...categoryOptions.map((c) => slugify(c)),
+    ...posts.map((p) => slugify(p.data.category)),
+  ]);
+  return Array.from(categories).map((category) => ({
+    params: { category },
+  }));
+}
+
+const { category } = Astro.params;
+const all = await getCollection("posts", ({ data }) => !data.draft);
+
+const filtered = all
+  .filter((p) => slugify(p.data.category) === category)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title={`${category} — ${site.name}`}>
+  <div class="wrap">
+    <SiteHeader />
+
+    <header class="head">
+      <a class="back" href="/">← Home</a>
+      <h1 class="title">{category}</h1>
+      <p class="sub">{filtered.length} post(s)</p>
+    </header>
+
+    <section class="feed">
+      {filtered.map((p) => (
+        <article class="post">
+          <div class="meta">
+            <time datetime={p.data.date.toISOString()}>
+              {p.data.date.toISOString().slice(0, 10)}
+            </time>
+          </div>
+          <h2 class="ptitle">
+            <a href={`/posts/${p.slug}`}>{p.data.title}</a>
+          </h2>
+          {p.data.description && <p class="desc">{p.data.description}</p>}
+        </article>
+      ))}
+    </section>
+
+    <SiteFooter />
+  </div>
+
+  <style>
+    .wrap { max-width: var(--max); margin: 0 auto; width: 100%; }
+    .head { padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
+    .back { font-family: ui-sans-serif, system-ui; font-size: 14px; color: var(--muted); text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+    .title { margin: 12px 0 6px; font-size: 34px; letter-spacing: -0.01em; text-transform: capitalize; }
+    .sub { margin: 0; color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 13px; }
+
+    .post { padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .meta { color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 13px; }
+    .ptitle { margin: 8px 0 6px; font-size: 22px; line-height: 1.25; }
+    .ptitle a { text-decoration: none; }
+    .ptitle a:hover { text-decoration: underline; }
+    .desc { margin: 0; color: var(--muted); font-size: 15px; }
+  </style>
+</Layout>

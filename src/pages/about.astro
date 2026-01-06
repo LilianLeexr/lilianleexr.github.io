@@ -1,0 +1,41 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import site from "../data/site.json";
+import { getEntryBySlug } from "astro:content";
+
+const page = await getEntryBySlug("pages", "about");
+const { Content } = await page.render();
+---
+
+<Layout title={`${page.data.title} — ${site.name}`} description={page.data.summary}>
+  <div class="wrap">
+    <SiteHeader />
+
+    <main class="content">
+      <header class="head">
+        <h1>{page.data.title}</h1>
+        <p class="sub">{page.data.summary}</p>
+      </header>
+
+      <article class="prose">
+        <Content />
+      </article>
+    </main>
+
+    <SiteFooter />
+  </div>
+
+  <style>
+    .wrap { max-width: var(--max); margin: 0 auto; width: 100%; }
+    .content { max-width: 760px; }
+    .head { padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
+    h1 { margin: 0 0 6px; font-size: 34px; line-height: 1.15; letter-spacing: -0.01em; }
+    .sub { margin: 0; color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 14px; }
+
+    .prose :global(p) { margin: 0.9em 0; }
+    .prose :global(ul) { padding-left: 18px; }
+    .prose :global(a) { text-decoration: underline; text-underline-offset: 3px; }
+  </style>
+</Layout>

@@ -1,0 +1,20 @@
+{
+  "name": "Xinran \"Lilian\" Li",
+  "tagline": "Machine Learning Engineer, master student at CMU",
+  "location": "CMU • Pittsburgh, PA",
+  "email": "Lilian17xinranli@outlook.com",
+  "nav": [
+    { "label": "Home", "href": "/" },
+    { "label": "About Me", "href": "/about" },
+    { "label": "Research / Projects", "href": "/research" },
+    { "label": "Blog", "href": "/blog" },
+    { "label": "TechNotes", "href": "/technotes" },
+    { "label": "Life", "href": "/life" }
+  ],
+  "social": [
+    { "label": "GitHub", "href": "https://github.com/LilianLeexr" },
+    { "label": "LinkedIn", "href": "https://www.linkedin.com/in/xinranli17/" },
+    { "label": "Email", "href": "mailto:xinranl3@andrew.cmu.edu" }
+  ],
+  "footerNote": "I'm a Master's student in Electrical and Computer Engineering at Carnegie Mellon University, specializing in machine learning, computer vision, and multimodal AI."
+}

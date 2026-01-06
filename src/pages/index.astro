@@ -1,11 +1,249 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import site from "../data/site.json";
+import publications from "../data/publications.json";
+import { getCollection, getEntryBySlug } from "astro:content";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const slugifyCategory = (s) => String(s || "").trim().toLowerCase().replace(/\s+/g, "-");
+
+const about = await getEntryBySlug("pages", "about");
+const research = await getEntryBySlug("pages", "research");
+const blog = await getEntryBySlug("pages", "blog");
+const technotes = await getEntryBySlug("pages", "technotes");
+const life = await getEntryBySlug("pages", "life");
+
+const sections = [
+  { label: "About Me", href: "/about", summary: about?.data.summary },
+  { label: "Research / Projects", href: "/research", summary: research?.data.summary },
+  { label: "Blog", href: "/blog", summary: blog?.data.summary },
+  { label: "TechNotes", href: "/technotes", summary: technotes?.data.summary },
+  { label: "Life", href: "/life", summary: life?.data.summary },
+].filter((section) => section.summary);
+
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const posts = allPosts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 6);
+
+const projects = await getCollection("projects");
+const featuredProjects = [...projects]
+  .sort((a, b) => a.data.title.localeCompare(b.data.title))
+  .slice(0, 3);
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={site.name} description="Academic and engineering homepage">
+  <div class="wrap">
+    <SiteHeader />
+
+    <main class="grid">
+      <section class="feed">
+        <article class="block">
+          <div class="blockTitle">About Me</div>
+          <p class="desc">{about?.data.summary}</p>
+          <a class="more" href="/about">Read more →</a>
+        </article>
+
+        <article class="block">
+          <div class="blockTitle">Research / Projects</div>
+          <p class="desc">{research?.data.summary}</p>
+          <ul class="list">
+            {featuredProjects.map((project) => (
+              <li>
+                <a href={`/projects/${project.slug}`}>{project.data.title}</a>
+                <span class="muted">
+                  {" "}
+                  — {project.data.role}, {project.data.affiliation} ({project.data.period})
+                </span>
+              </li>
+            ))}
+          </ul>
+          <a class="more" href="/research">View all projects →</a>
+        </article>
+
+        <article class="block">
+          <div class="blockTitle">Latest Writing</div>
+          <ul class="postList">
+            {posts.map((post) => (
+              <li>
+                <div class="postMeta">
+                  <time datetime={post.data.date.toISOString()}>
+                    {post.data.date.toISOString().slice(0, 10)}
+                  </time>
+                  <span class="dot">·</span>
+                  <a class="cat" href={`/category/${slugifyCategory(post.data.category)}`}>
+                    {post.data.category}
+                  </a>
+                </div>
+                <a class="postTitle" href={`/posts/${post.slug}`}>
+                  {post.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div class="moreLinks">
+            <a href="/blog">Blog →</a>
+            <a href="/technotes">TechNotes →</a>
+            <a href="/life">Life →</a>
+          </div>
+        </article>
+
+        <article class="block">
+          <div class="blockTitle">Publications</div>
+          <ul class="pubList">
+            {publications.map((pub) => (
+              <li>
+                <div class="pubMeta">
+                  <span class="pubAuthors">{pub.authors}</span>
+                  <span class="dot">·</span>
+                  <span>{pub.venue}</span>
+                  <span class="dot">·</span>
+                  <span>{pub.year}</span>
+                  <span class="status">{pub.status}</span>
+                </div>
+                <a class="pubTitle" href={pub.href} target="_blank">{pub.title}</a>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </section>
+
+      <aside class="side">
+        <div class="box">
+          <div class="boxTitle">Profile</div>
+          <p class="muted">{site.tagline}</p>
+          <p class="muted">{site.location}</p>
+        </div>
+
+        <div class="box">
+          <div class="boxTitle">Sections</div>
+          <ul class="list">
+            {sections.map((section) => (
+              <li>
+                <a href={section.href}>{section.label}</a>
+                <div class="hint">{section.summary}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="box">
+          <div class="boxTitle">Contact</div>
+          <ul class="list">
+            {site.social.map((item) => (
+              <li>
+                <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <SiteFooter />
+  </div>
+
+  <style>
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 44px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; gap: 26px; }
+    }
+
+    .block {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .blockTitle {
+      font-family: ui-sans-serif, system-ui;
+      font-weight: 650;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: var(--muted2);
+    }
+
+    .desc { margin: 0 0 10px; color: var(--muted); font-size: 15px; }
+
+    .postList { list-style: none; margin: 0; padding: 0; }
+    .postList li { padding: 10px 0; border-bottom: 1px solid var(--border); }
+
+    .postMeta { color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 12px; }
+    .dot { margin: 0 8px; }
+    .cat { text-decoration: none; border-bottom: 1px solid transparent; }
+    .cat:hover { border-color: currentColor; }
+
+    .postTitle { display: inline-block; margin-top: 6px; text-decoration: none; font-size: 18px; }
+    .postTitle:hover { text-decoration: underline; }
+
+    .more {
+      display: inline-block;
+      margin-top: 10px;
+      font-family: ui-sans-serif, system-ui;
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+    }
+
+    .more:hover { border-color: var(--text); }
+
+    .moreLinks {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      font-family: ui-sans-serif, system-ui;
+    }
+
+    .moreLinks a { text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 2px; }
+    .moreLinks a:hover { border-color: var(--text); }
+
+    .side { position: sticky; top: 18px; align-self: start; }
+    @media (max-width: 980px) { .side { position: static; } }
+
+    .box { border: 1px solid var(--border); padding: 14px; margin-bottom: 14px; }
+    .boxTitle {
+      font-family: ui-sans-serif, system-ui;
+      font-weight: 650;
+      font-size: 12px;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      color: var(--muted2);
+    }
+
+    .muted { color: var(--muted); margin: 0 0 8px; font-size: 14px; }
+    .list { margin: 0; padding-left: 18px; color: var(--muted); }
+    .list a { text-decoration: none; border-bottom: 1px solid transparent; }
+    .list a:hover { border-color: currentColor; }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted2);
+      margin-top: 4px;
+    }
+
+    .pubList { list-style: none; margin: 0; padding: 0; }
+    .pubList li { padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .pubMeta { color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 12px; }
+    .pubAuthors { font-weight: 600; color: var(--text); }
+    .status { margin-left: 8px; font-weight: 600; color: var(--text); }
+    .pubTitle { display: inline-block; margin-top: 6px; text-decoration: none; font-size: 18px; }
+    .pubTitle:hover { text-decoration: underline; }
+  </style>
 </Layout>

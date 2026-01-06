@@ -1,0 +1,66 @@
+---
+import site from "../data/site.json";
+
+const { title, path } = Astro.props;
+const currentPath = path ?? Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="brand">
+    <a href="/">{title ?? site.name}</a>
+  </div>
+  <nav class="nav">
+    {site.nav.map((item) => (
+      <a class={item.href === currentPath ? "active" : undefined} href={item.href}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+</header>
+
+<style>
+  .header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: baseline;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 26px;
+  }
+
+  .brand {
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+  }
+
+  .brand a {
+    text-decoration: none;
+  }
+
+  .nav {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    font-size: 14px;
+  }
+
+  .nav a {
+    text-decoration: none;
+    color: var(--muted);
+    padding: 6px 0;
+  }
+
+  .nav a:hover {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .nav a.active {
+    color: var(--text);
+    font-weight: 600;
+  }
+</style>
