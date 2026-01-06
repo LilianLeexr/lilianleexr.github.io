@@ -3,17 +3,18 @@ import Layout from "../../layouts/Layout.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
 import site from "../../data/site.json";
+import slugify from "slugify";
 import { getCollection } from "astro:content";
 import { categoryOptions } from "../../content/config";
 
-const slugify = (s) => String(s || "").trim().toLowerCase().replace(/\s+/g, "-");
+const slugifyCategory = (s) => String(s || "").trim().toLowerCase().replace(/\s+/g, "-");
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts", ({ data }) => !data.draft);
 
   const categories = new Set([
-    ...categoryOptions.map((c) => slugify(c)),
-    ...posts.map((p) => slugify(p.data.category)),
+    ...categoryOptions.map((c) => slugify(c, { lower: true, strict: true })),
+    ...posts.map((p) => slugify(p.data.category, { lower: true, strict: true })),
   ]);
   return Array.from(categories).map((category) => ({
     params: { category },
@@ -24,7 +25,7 @@ const { category } = Astro.params;
 const all = await getCollection("posts", ({ data }) => !data.draft);
 
 const filtered = all
-  .filter((p) => slugify(p.data.category) === category)
+  .filter((p) => slugifyCategory(p.data.category) === category)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
