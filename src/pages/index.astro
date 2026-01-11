@@ -123,12 +123,21 @@ const featuredProjects = [...projects]
           <div class="boxTitle sparkle-title">Profile</div>
           <div class="profile">
             <div class="avatar-wrap">
-              <img class="avatar" src="/images/ID.jpg" alt={`${site.name} portrait`} />
-              <span class="cat-charm" aria-hidden="true">
-                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M7.5 3.5 5 7v6.5C5 18 8 20.5 12 20.5s7-2.5 7-7V7l-2.5-3.5-2 2L12 3.5 9.5 5.5l-2-2Zm1.5 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm6 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm-7 3.5c1.2 1 2.7 1.5 4 1.5s2.8-.5 4-1.5" />
+              <div class="cat-wrapper" aria-hidden="true">
+                <svg class="cat" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                  <path class="cat-body" d="M20,40 Q20,20 50,20 T80,40" />
+                  <path class="cat-stripe" d="M40,22 Q45,30 40,38 M50,21 Q55,30 50,38 M60,22 Q65,30 60,38" />
+                  <circle class="cat-head" cx="80" cy="35" r="12" />
+                  <path class="cat-ear" d="M75,25 L70,15 L80,23 M85,25 L90,15 L80,23" />
+                  <circle class="cat-eye" cx="77" cy="33" r="1.5" />
+                  <circle class="cat-eye" cx="83" cy="33" r="1.5" />
+                  <line class="leg leg-1" x1="30" y1="40" x2="30" y2="50" />
+                  <line class="leg leg-2" x1="45" y1="40" x2="45" y2="50" />
+                  <line class="leg leg-3" x1="60" y1="40" x2="60" y2="50" />
+                  <line class="leg leg-4" x1="75" y1="40" x2="75" y2="50" />
                 </svg>
-              </span>
+              </div>
+              <img class="avatar" src="/images/ID.jpg" alt={`${site.name} portrait`} />
             </div>
             <div>
               <p class="muted name">{site.name}</p>
@@ -256,6 +265,11 @@ const featuredProjects = [...projects]
       gap: 12px;
       align-items: center;
     }
+    .avatar-wrap {
+      position: relative;
+      width: 92px;
+      height: 92px;
+    }
     .avatar {
       width: 92px;
       height: 92px;
@@ -263,6 +277,47 @@ const featuredProjects = [...projects]
       object-fit: cover;
       border: 1px solid var(--border);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    }
+    .cat-wrapper {
+      position: absolute;
+      top: -26px;
+      left: -12px;
+      width: 60px;
+      z-index: 2;
+      animation: move-and-flop 8s infinite ease-in-out;
+      transform-origin: bottom center;
+    }
+    .cat { width: 100%; height: auto; }
+    .cat-body, .cat-head, .cat-ear {
+      fill: #b5b8bc;
+      stroke: #4c5561;
+      stroke-width: 2;
+    }
+    .cat-stripe {
+      fill: none;
+      stroke: #7c828a;
+      stroke-width: 1.5;
+    }
+    .cat-eye { fill: #2b2f38; }
+    .leg { stroke: #4c5561; stroke-width: 3; }
+    .leg { animation: walk-legs 0.5s infinite alternate; }
+    .leg-2, .leg-4 { animation-delay: 0.25s; }
+
+    @keyframes walk-legs {
+      from { transform: translateY(0); }
+      to { transform: translateY(-2px); }
+    }
+    @keyframes move-and-flop {
+      0% { transform: translateX(-10px) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      40% { transform: translateX(70px) rotate(0deg); }
+      45% { transform: translateX(74px) rotate(-5deg); }
+      55% { transform: translateX(74px) translateY(10px) rotate(80deg); }
+      60% { transform: translateX(76px) translateY(8px) rotate(75deg); }
+      65% { transform: translateX(74px) translateY(10px) rotate(80deg); }
+      70% { transform: translateX(76px) translateY(8px) rotate(75deg); }
+      85% { transform: translateX(74px) rotate(0deg); opacity: 1; }
+      100% { transform: translateX(130px) rotate(0deg); opacity: 0; }
     }
     .name { font-weight: 600; color: var(--text); }
     .list { margin: 0; padding-left: 18px; color: var(--muted); }
