@@ -124,17 +124,59 @@ const featuredProjects = [...projects]
           <div class="profile">
             <div class="avatar-wrap">
               <div class="cat-wrapper" aria-hidden="true">
-                <svg class="cat" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
-                  <path class="cat-body" d="M20,40 Q20,20 50,20 T80,40" />
-                  <path class="cat-stripe" d="M40,22 Q45,30 40,38 M50,21 Q55,30 50,38 M60,22 Q65,30 60,38" />
-                  <circle class="cat-head" cx="80" cy="35" r="12" />
-                  <path class="cat-ear" d="M75,25 L70,15 L80,23 M85,25 L90,15 L80,23" />
-                  <circle class="cat-eye" cx="77" cy="33" r="1.5" />
-                  <circle class="cat-eye" cx="83" cy="33" r="1.5" />
-                  <line class="leg leg-1" x1="30" y1="40" x2="30" y2="50" />
-                  <line class="leg leg-2" x1="45" y1="40" x2="45" y2="50" />
-                  <line class="leg leg-3" x1="60" y1="40" x2="60" y2="50" />
-                  <line class="leg leg-4" x1="75" y1="40" x2="75" y2="50" />
+                <svg class="cat-realistic" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="fur-pattern" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#b9b9b9" />
+                      <stop offset="25%" stop-color="#e0e0e0" />
+                      <stop offset="50%" stop-color="#9a9a9a" />
+                      <stop offset="75%" stop-color="#d0d0d0" />
+                      <stop offset="100%" stop-color="#b0b0b0" />
+                    </linearGradient>
+                    <radialGradient id="fur-pattern-head" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#ececec" />
+                      <stop offset="70%" stop-color="#b6b6b6" />
+                      <stop offset="100%" stop-color="#8f8f8f" />
+                    </radialGradient>
+                  </defs>
+                  <ellipse class="cat-shadow" cx="100" cy="112" rx="42" ry="6" />
+                  <g class="cat-body-group">
+                    <path class="tail" d="M160,70 Q190,40 170,20" fill="none" />
+                    <path class="leg back-far" d="M130,80 L135,110" />
+                    <path class="leg back-near" d="M145,85 L150,115" />
+                    <path class="body-core" d="M50,80 Q50,40 100,40 T160,80 L155,95 Q100,105 55,95 Z" />
+                    <path class="stripe river" d="M86,44 Q92,58 86,76" />
+                    <path class="stripe river" d="M102,42 Q108,58 102,76" />
+                    <path class="stripe river" d="M118,44 Q124,58 118,76" />
+                    <path class="stripe tabby" d="M70,52 Q85,60 70,68" />
+                    <path class="stripe tabby" d="M136,56 Q150,62 136,70" />
+                    <path class="white-chest" d="M50,80 Q70,80 75,100 L55,95 Z" />
+                    <path class="leg front-far" d="M70,85 L65,110" />
+                    <path class="leg front-near" d="M60,90 L55,115" />
+                    <circle class="sock" cx="65" cy="112" r="4" />
+                    <circle class="sock" cx="55" cy="117" r="4" />
+                    <circle class="sock" cx="135" cy="120" r="4" />
+                    <circle class="sock" cx="125" cy="112" r="4" />
+                    <g class="head">
+                      <circle cx="50" cy="60" r="25" class="head-fill" />
+                      <path d="M35,45 L25,25 L45,40 Z" class="ear ear-left" />
+                      <path d="M65,45 L75,25 L55,40 Z" class="ear ear-right" />
+                      <circle cx="50" cy="70" r="12" class="muzzle" />
+                      <circle class="eye" cx="40" cy="58" r="4" />
+                      <circle class="eye" cx="60" cy="58" r="4" />
+                      <circle class="pupil" cx="40" cy="58" r="2" />
+                      <circle class="pupil" cx="60" cy="58" r="2" />
+                      <path d="M48,70 L52,70 L50,73 Z" class="nose" />
+                      <g class="whiskers">
+                        <line x1="32" y1="64" x2="16" y2="60" />
+                        <line x1="32" y1="68" x2="14" y2="68" />
+                        <line x1="32" y1="72" x2="16" y2="76" />
+                        <line x1="68" y1="64" x2="84" y2="60" />
+                        <line x1="68" y1="68" x2="86" y2="68" />
+                        <line x1="68" y1="72" x2="84" y2="76" />
+                      </g>
+                    </g>
+                  </g>
                 </svg>
               </div>
               <img class="avatar" src="/images/ID.jpg" alt={`${site.name} portrait`} />
@@ -280,44 +322,106 @@ const featuredProjects = [...projects]
     }
     .cat-wrapper {
       position: absolute;
-      top: -26px;
-      left: -12px;
-      width: 60px;
+      top: -56px;
+      left: -90px;
+      width: 160px;
+      height: 110px;
       z-index: 2;
-      animation: move-and-flop 8s infinite ease-in-out;
+      animation: cat-sequence 10s infinite ease-in-out;
       transform-origin: bottom center;
     }
-    .cat { width: 100%; height: auto; }
-    .cat-body, .cat-head, .cat-ear {
-      fill: #b5b8bc;
-      stroke: #4c5561;
-      stroke-width: 2;
-    }
-    .cat-stripe {
-      fill: none;
-      stroke: #7c828a;
-      stroke-width: 1.5;
-    }
-    .cat-eye { fill: #2b2f38; }
-    .leg { stroke: #4c5561; stroke-width: 3; }
-    .leg { animation: walk-legs 0.5s infinite alternate; }
-    .leg-2, .leg-4 { animation-delay: 0.25s; }
+    .cat-realistic { width: 100%; height: 100%; overflow: visible; }
+    .cat-shadow { fill: rgba(0, 0, 0, 0.08); }
+    .body-core { fill: url(#fur-pattern); }
+    .white-chest, .sock, .muzzle { fill: #ffffff; }
+    .head-fill { fill: url(#fur-pattern-head); }
+    .stripe { fill: none; stroke: #7f8c8d; stroke-width: 3; stroke-linecap: round; }
+    .tail { stroke: #7f8c8d; stroke-width: 8; stroke-linecap: round; }
+    .leg { stroke: #95a5a6; stroke-width: 6; stroke-linecap: round; }
+    .back-near, .front-near { stroke: #bdc3c7; stroke-width: 7; }
+    .ear { fill: #9aa0a6; }
+    .eye { fill: #f3cf6e; }
+    .pupil { fill: #111; }
+    .nose { fill: #f2a0b6; }
+    .whiskers line { stroke: #6b6f78; stroke-width: 1.5; }
+    .cat-body-group { transform-origin: 100px 110px; animation: body-bob 10s infinite ease-in-out; }
+    .head { transform-origin: 50px 60px; animation: head-tilt 10s infinite ease-in-out; }
+    .tail { transform-origin: 160px 70px; animation: tail-swish 10s infinite ease-in-out; }
+    .ear-left { animation: ear-twitch 10s infinite ease-in-out; transform-origin: 30px 45px; }
+    .ear-right { animation: ear-twitch 10s infinite ease-in-out 0.2s; transform-origin: 70px 45px; }
+    .whiskers { animation: whisker-twitch 10s infinite ease-in-out; }
+    .leg { transform-origin: top center; animation: walk-cycle 10s infinite ease-in-out; }
+    .back-near, .front-far { animation-delay: 0.3s; }
+    .knead { animation: knead 10s infinite ease-in-out; }
 
-    @keyframes walk-legs {
-      from { transform: translateY(0); }
-      to { transform: translateY(-2px); }
+    @keyframes cat-sequence {
+      0% { transform: translateX(-30px); opacity: 0; }
+      6% { opacity: 1; }
+      30% { transform: translateX(140px) rotate(0deg); }
+      36% { transform: translateX(140px) rotate(0deg); }
+      40% { transform: translateX(148px) translateY(28px) rotate(85deg); }
+      44% { transform: translateX(152px) translateY(30px) rotate(80deg); }
+      48% { transform: translateX(146px) translateY(26px) rotate(88deg); }
+      52% { transform: translateX(152px) translateY(30px) rotate(80deg); }
+      56% { transform: translateX(148px) translateY(0) rotate(0deg); }
+      66% { transform: translateX(148px); }
+      100% { transform: translateX(320px); opacity: 0; }
     }
-    @keyframes move-and-flop {
-      0% { transform: translateX(-10px) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      40% { transform: translateX(70px) rotate(0deg); }
-      45% { transform: translateX(74px) rotate(-5deg); }
-      55% { transform: translateX(74px) translateY(10px) rotate(80deg); }
-      60% { transform: translateX(76px) translateY(8px) rotate(75deg); }
-      65% { transform: translateX(74px) translateY(10px) rotate(80deg); }
-      70% { transform: translateX(76px) translateY(8px) rotate(75deg); }
-      85% { transform: translateX(74px) rotate(0deg); opacity: 1; }
-      100% { transform: translateX(130px) rotate(0deg); opacity: 0; }
+
+    @keyframes body-bob {
+      0%, 30% { transform: translateY(0); }
+      15% { transform: translateY(-3px); }
+      30%, 66% { transform: translateY(0); }
+      80% { transform: translateY(-2px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes walk-cycle {
+      0%, 30% { transform: rotate(-15deg); }
+      15% { transform: rotate(15deg); }
+      30%, 60% { transform: rotate(0deg); }
+      80% { transform: rotate(-12deg); }
+      100% { transform: rotate(12deg); }
+    }
+
+    @keyframes tail-swish {
+      0%, 30% { transform: rotate(-8deg); }
+      15% { transform: rotate(14deg); }
+      40% { transform: rotate(6deg); }
+      60% { transform: rotate(18deg); }
+      100% { transform: rotate(-6deg); }
+    }
+
+    @keyframes head-tilt {
+      0%, 30% { transform: rotate(0deg); }
+      36% { transform: rotate(-6deg); }
+      44% { transform: rotate(8deg) translateX(2px); }
+      48% { transform: rotate(6deg) translateX(-2px); }
+      56% { transform: rotate(0deg); }
+      100% { transform: rotate(2deg); }
+    }
+
+    @keyframes ear-twitch {
+      0%, 34% { transform: rotate(0deg); }
+      38% { transform: rotate(-6deg); }
+      42% { transform: rotate(0deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes whisker-twitch {
+      0%, 40% { transform: translateY(0); }
+      44% { transform: translateY(-1px); }
+      48% { transform: translateY(0); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes knead {
+      0%, 40% { transform: translateY(0); }
+      44% { transform: translateY(2px); }
+      48% { transform: translateY(0); }
+      52% { transform: translateY(2px); }
+      56% { transform: translateY(0); }
+      100% { transform: translateY(0); }
     }
     .name { font-weight: 600; color: var(--text); }
     .list { margin: 0; padding-left: 18px; color: var(--muted); }
