@@ -272,8 +272,8 @@ const featuredProjects = [...projects]
     .pubList li { padding: 10px 0; border-bottom: 1px solid var(--border); }
     .pubCard {
       display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 14px;
+      grid-template-columns: 1fr;
+      gap: 12px;
       text-decoration: none;
       color: inherit;
     }
@@ -284,27 +284,18 @@ const featuredProjects = [...projects]
       overflow: hidden;
       background: #f7f7f7;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-      aspect-ratio: 3 / 4;
+      display: grid;
+      gap: 0;
     }
-    .pubCover {
+    .pubCover,
+    .pubFigure {
       width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: cover;
       display: block;
-      filter: saturate(0.95);
     }
-    .pubFigure {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      width: 70%;
-      height: 44%;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid rgba(17, 17, 17, 0.12);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-      background: #fff;
-    }
+    .pubCover { filter: saturate(0.95); }
+    .pubFigure { border-top: 1px solid rgba(0, 0, 0, 0.08); }
     .pubBadge {
       position: absolute;
       top: 10px;
