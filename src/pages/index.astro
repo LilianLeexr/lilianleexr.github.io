@@ -94,15 +94,24 @@ const featuredProjects = [...projects]
           <ul class="pubList">
             {publications.map((pub) => (
               <li>
-                <div class="pubMeta">
-                  <span class="pubAuthors">{pub.authors}</span>
-                  <span class="dot">·</span>
-                  <span>{pub.venue}</span>
-                  <span class="dot">·</span>
-                  <span>{pub.year}</span>
-                  <span class="status">{pub.status}</span>
-                </div>
-                <a class="pubTitle" href={pub.href} target="_blank">{pub.title}</a>
+                <a class="pubCard" href={pub.href} target="_blank" rel="noopener">
+                  <div class="pubMedia">
+                    <img class="pubCover" src={pub.cover} alt={`${pub.title} cover`} />
+                    <img class="pubFigure" src={pub.figure} alt={`${pub.title} figure`} />
+                    <span class="pubBadge">↗</span>
+                  </div>
+                  <div class="pubBody">
+                    <div class="pubMeta">
+                      <span class="pubAuthors">{pub.authors}</span>
+                      <span class="dot">·</span>
+                      <span>{pub.venue}</span>
+                      <span class="dot">·</span>
+                      <span>{pub.year}</span>
+                      <span class="status">{pub.status}</span>
+                    </div>
+                    <div class="pubTitle">{pub.title}</div>
+                  </div>
+                </a>
               </li>
             ))}
           </ul>
@@ -261,10 +270,63 @@ const featuredProjects = [...projects]
 
     .pubList { list-style: none; margin: 0; padding: 0; }
     .pubList li { padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .pubCard {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .pubMedia {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f7f7f7;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      aspect-ratio: 3 / 4;
+    }
+    .pubCover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.95);
+    }
+    .pubFigure {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 70%;
+      height: 44%;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid rgba(17, 17, 17, 0.12);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+      background: #fff;
+    }
+    .pubBadge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(17, 17, 17, 0.75);
+      color: #fff;
+      font-size: 12px;
+      display: grid;
+      place-items: center;
+    }
+    .pubCard:hover .pubMedia {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transform: translateY(-1px);
+      transition: box-shadow 0.15s ease, transform 0.15s ease;
+    }
+    .pubBody { display: grid; gap: 6px; }
     .pubMeta { color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 12px; }
     .pubAuthors { font-weight: 600; color: var(--text); }
     .status { margin-left: 8px; font-weight: 600; color: var(--text); }
-    .pubTitle { display: inline-block; margin-top: 6px; text-decoration: none; font-size: 18px; }
-    .pubTitle:hover { text-decoration: underline; }
+    .pubTitle { font-size: 18px; line-height: 1.35; }
   </style>
 </Layout>

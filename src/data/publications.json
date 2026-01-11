@@ -5,6 +5,8 @@
     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI)",
     "year": 2025,
     "status": "Accepted",
-    "href": "https://arxiv.org/abs/2410.16953"
+    "href": "https://arxiv.org/abs/2410.16953",
+    "cover": "/images/publication.jpg",
+    "figure": "/images/paperimage.jpg"
   }
 ]
