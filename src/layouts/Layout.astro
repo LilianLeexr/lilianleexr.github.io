@@ -8,6 +8,12 @@ const { title = "Xinran Li", description = "Research • Projects • Writing" }
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <title>{title}</title>
   </head>
   <body>
@@ -21,30 +27,31 @@ const { title = "Xinran Li", description = "Research • Projects • Writing" }
   :global(:root) {
     --max: 1120px;
     --pad: 28px;
-    --text: #1a1824;
-    --muted: rgba(26, 24, 36, 0.68);
-    --muted2: rgba(26, 24, 36, 0.52);
-    --border: rgba(120, 112, 156, 0.16);
-    --bg: #f8f6fb;
+    --bg: #fbf8ff;
+    --bg2: #f2edff;
     --surface: #ffffff;
-    --surface2: #fbf9ff;
-    --accent: #b59ce3;
-    --accent2: #8f74cf;
-    --shadow: 0 10px 26px rgba(32, 24, 60, 0.08);
+    --surface2: #f6f1ff;
+    --border: rgba(146, 128, 204, 0.22);
+    --text: #211a33;
+    --textStrong: #1a142a;
+    --muted: rgba(33, 26, 51, 0.68);
+    --muted2: rgba(33, 26, 51, 0.5);
+    --accent: #b8a0ff;
+    --accent2: #8d6bff;
+    --accentSoft: rgba(184, 160, 255, 0.18);
+    --shadow: 0 14px 32px rgba(46, 35, 85, 0.12);
     --radius: 14px;
-    --focus: 0 0 0 3px rgba(181, 156, 227, 0.35);
+    --focus: 0 0 0 3px rgba(141, 107, 255, 0.35);
   }
 
   :global(*), :global(*::before), :global(*::after) { box-sizing: border-box; }
 
   :global(html, body) {
     margin: 0;
-    background:
-      radial-gradient(900px 520px at 85% -10%, rgba(181, 156, 227, 0.12), transparent 60%),
-      var(--bg);
+    background: linear-gradient(180deg, var(--bg), var(--bg2));
     color: var(--text);
-    font-family: "Sora", "Space Grotesk", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-    line-height: 1.7;
+    font-family: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    line-height: 1.75;
   }
 
   :global(body::before) {
@@ -52,10 +59,25 @@ const { title = "Xinran Li", description = "Research • Projects • Writing" }
     position: fixed;
     inset: 0;
     pointer-events: none;
+    background:
+      radial-gradient(820px 520px at 85% -10%, rgba(184, 160, 255, 0.22), transparent 60%),
+      radial-gradient(circle at 20% 10%, rgba(141, 107, 255, 0.12), transparent 45%),
+      radial-gradient(circle at 70% 25%, rgba(184, 160, 255, 0.1), transparent 45%),
+      radial-gradient(circle, rgba(141, 107, 255, 0.08) 1px, transparent 1.6px) 0 0 / 140px 140px,
+      radial-gradient(circle, rgba(141, 107, 255, 0.08) 1px, transparent 1.6px) 60px 40px / 180px 180px;
+    opacity: 0.42;
+    z-index: -2;
+  }
+
+  :global(body::after) {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
     background-image:
       linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
       url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGZpbHRlciBpZD0ibm9pc2UiPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjgiIG51bU9jdGF2ZXM9IjIiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIGZpbHRlcj0idXJsKCNub2lzZSkiIG9wYWNpdHk9IjAuMDQiLz48L3N2Zz4=");
-    opacity: 0.22;
+    opacity: 0.18;
     z-index: -1;
   }
 
@@ -67,6 +89,12 @@ const { title = "Xinran Li", description = "Research • Projects • Writing" }
     border-radius: 6px;
   }
 
+  :global(h1),
+  :global(h2),
+  :global(h3) {
+    font-family: "Plus Jakarta Sans", "Noto Sans SC", ui-sans-serif, system-ui;
+    color: var(--textStrong);
+  }
   :global(h1) { font-size: 36px; letter-spacing: -0.02em; }
   :global(h2) { font-size: 26px; letter-spacing: -0.01em; }
   :global(h3) { font-size: 20px; }
@@ -81,13 +109,13 @@ const { title = "Xinran Li", description = "Research • Projects • Writing" }
   }
   :global(.card:hover) {
     transform: translateY(-1px);
-    box-shadow: 0 14px 34px rgba(32, 24, 60, 0.12);
-    border-color: rgba(143, 116, 207, 0.35);
+    box-shadow: 0 16px 36px rgba(46, 35, 85, 0.14);
+    border-color: rgba(165, 139, 255, 0.45);
   }
 
   :global(.btn) {
-    background: linear-gradient(135deg, rgba(181, 156, 227, 0.22), rgba(181, 156, 227, 0.08));
-    border: 1px solid rgba(181, 156, 227, 0.6);
+    background: linear-gradient(135deg, rgba(184, 160, 255, 0.35), rgba(184, 160, 255, 0.14));
+    border: 1px solid rgba(141, 107, 255, 0.6);
     color: var(--text);
     border-radius: 999px;
     padding: 10px 16px;
@@ -97,8 +125,8 @@ const { title = "Xinran Li", description = "Research • Projects • Writing" }
   }
   :global(.btn:hover) {
     transform: translateY(-1px);
-    border-color: var(--accent2);
-    box-shadow: 0 10px 20px rgba(32, 24, 60, 0.12);
+    border-color: var(--purple-3);
+    box-shadow: 0 12px 24px rgba(46, 35, 85, 0.16);
   }
   :global(.btn.secondary) {
     background: transparent;
@@ -106,37 +134,104 @@ const { title = "Xinran Li", description = "Research • Projects • Writing" }
   }
 
   :global(.chip) {
-    border: 1px solid rgba(181, 156, 227, 0.45);
+    border: 1px solid rgba(141, 107, 255, 0.45);
     border-radius: 999px;
     padding: 2px 10px;
     font-size: 12px;
     font-family: ui-sans-serif, system-ui;
     color: var(--text);
-    background: rgba(181, 156, 227, 0.08);
+    background: rgba(184, 160, 255, 0.16);
     transition: border-color 0.18s ease, background 0.18s ease;
   }
   :global(.chip:hover) {
     border-color: var(--accent2);
-    background: rgba(143, 116, 207, 0.16);
+    background: rgba(141, 107, 255, 0.2);
+  }
+
+  :global(.section-surface) {
+    background: var(--surface2);
+    border: 1px solid rgba(141, 107, 255, 0.2);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  :global(.section-glow) {
+    position: relative;
+  }
+  :global(.section-glow::before) {
+    content: "";
+    position: absolute;
+    top: -14px;
+    left: 0;
+    right: 0;
+    height: 18px;
+    background: linear-gradient(90deg, transparent, rgba(165, 139, 255, 0.18), transparent);
+  }
+
+  :global(.sparkle-title) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  :global(.sparkle-title::after) {
+    content: "✦";
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  :global(.avatar-wrap) {
+    position: relative;
+    width: fit-content;
+  }
+  :global(.cat-charm) {
+    position: absolute;
+    right: -10px;
+    bottom: -8px;
+    width: 28px;
+    height: 28px;
+    background: var(--surface);
+    border: 1px solid rgba(141, 107, 255, 0.5);
+    border-radius: 10px;
+    box-shadow: 0 8px 18px rgba(46, 35, 85, 0.18);
+    display: grid;
+    place-items: center;
+    transform-origin: top center;
+    transition: transform 0.2s ease;
+  }
+  :global(.avatar-wrap:hover .cat-charm) {
+    transform: rotate(6deg);
+  }
+  :global(.cat-charm svg) {
+    width: 18px;
+    height: 18px;
+    fill: var(--accent2);
   }
 
   @media (prefers-color-scheme: dark) {
     :global(:root) {
-      --bg: #151320;
-      --surface: #1c1928;
-      --surface2: #221e33;
-      --text: #f2effa;
-      --muted: rgba(242, 239, 250, 0.65);
-      --muted2: rgba(242, 239, 250, 0.5);
-      --border: rgba(181, 156, 227, 0.2);
-      --accent: #c8b2ff;
-      --accent2: #a28ae6;
-      --shadow: 0 12px 28px rgba(8, 6, 16, 0.35);
+      --bg: #161326;
+      --bg2: #1a1530;
+      --surface: #1f1a35;
+      --surface2: #241d3d;
+      --text: #f3efff;
+      --muted: rgba(243, 239, 255, 0.7);
+      --muted2: rgba(243, 239, 255, 0.5);
+      --border: rgba(165, 139, 255, 0.22);
+      --purple-1: #d6c7ff;
+      --purple-2: #b79cff;
+      --purple-3: #9071f0;
+      --glow: rgba(144, 113, 240, 0.25);
+      --shadow: 0 14px 32px rgba(8, 6, 16, 0.4);
     }
     :global(body) {
-      background:
-        radial-gradient(900px 520px at 85% -10%, rgba(162, 138, 230, 0.18), transparent 60%),
-        var(--bg);
+      background: linear-gradient(180deg, var(--bg), var(--bg2));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(*) {
+      animation: none !important;
+      transition: none !important;
     }
   }
 

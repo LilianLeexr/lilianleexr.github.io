@@ -40,13 +40,13 @@ const featuredProjects = [...projects]
     <main class="grid">
       <section class="feed">
         <article class="block">
-          <div class="blockTitle">About Me</div>
+          <div class="blockTitle sparkle-title">About Me</div>
           <p class="desc">{about?.data.summary}</p>
           <a class="more" href="/about">Read more →</a>
         </article>
 
         <article class="block">
-          <div class="blockTitle">Research / Projects</div>
+          <div class="blockTitle sparkle-title">Research / Projects</div>
           <p class="desc">{research?.data.summary}</p>
           <ul class="list">
             {featuredProjects.map((project) => (
@@ -63,7 +63,7 @@ const featuredProjects = [...projects]
         </article>
 
         <article class="block">
-          <div class="blockTitle">Latest Writing</div>
+          <div class="blockTitle sparkle-title">Latest Writing</div>
           <ul class="postList">
             {posts.map((post) => (
               <li>
@@ -90,7 +90,7 @@ const featuredProjects = [...projects]
         </article>
 
         <article class="block">
-          <div class="blockTitle">Publications</div>
+          <div class="blockTitle sparkle-title">Publications</div>
           <ul class="pubList">
             {publications.map((pub) => (
               <li>
@@ -119,10 +119,17 @@ const featuredProjects = [...projects]
       </section>
 
       <aside class="side">
-        <div class="box">
-          <div class="boxTitle">Profile</div>
+        <div class="box section-surface">
+          <div class="boxTitle sparkle-title">Profile</div>
           <div class="profile">
-            <img class="avatar" src="/images/ID.jpg" alt={`${site.name} portrait`} />
+            <div class="avatar-wrap">
+              <img class="avatar" src="/images/ID.jpg" alt={`${site.name} portrait`} />
+              <span class="cat-charm" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M7.5 3.5 5 7v6.5C5 18 8 20.5 12 20.5s7-2.5 7-7V7l-2.5-3.5-2 2L12 3.5 9.5 5.5l-2-2Zm1.5 8.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm6 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm-7 3.5c1.2 1 2.7 1.5 4 1.5s2.8-.5 4-1.5" />
+                </svg>
+              </span>
+            </div>
             <div>
               <p class="muted name">{site.name}</p>
               <p class="muted">{site.tagline}</p>
@@ -245,13 +252,13 @@ const featuredProjects = [...projects]
     .muted { color: var(--muted); margin: 0 0 8px; font-size: 14px; }
     .profile {
       display: grid;
-      grid-template-columns: 72px 1fr;
+      grid-template-columns: 92px 1fr;
       gap: 12px;
       align-items: center;
     }
     .avatar {
-      width: 72px;
-      height: 72px;
+      width: 92px;
+      height: 92px;
       border-radius: 18px;
       object-fit: cover;
       border: 1px solid var(--border);
