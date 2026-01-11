@@ -3,13 +3,58 @@ import Layout from "../layouts/Layout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import site from "../data/site.json";
-import { getCollection, getEntryBySlug } from "astro:content";
+import { getEntryBySlug } from "astro:content";
 
 const page = await getEntryBySlug("pages", "life");
 const { Content } = await page.render();
 
-const posts = (await getCollection("posts", ({ data }) => !data.draft && data.category === "Life"))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const timeline = [
+  {
+    date: "Dec 2025",
+    title: "The Most Worthwhile Things to Do in Honolulu",
+    excerpt:
+      "5 unforgettable experiences: Mauna Kea stargazing, skydiving, Mugen dinner, island drive, and a night volcano hike.",
+    tags: ["Travel", "Adventure", "Honolulu"],
+    href: "/posts/life-weekly-observation",
+    thumb: "/images/hawaii_0.jpg",
+  },
+  {
+    date: "Oct 2025",
+    title: "Island Morning Rituals",
+    excerpt: "Quiet sunrise walks, matcha stops, and how I plan a slow travel day.",
+    tags: ["Lifestyle", "Morning", "Island"],
+    href: "#",
+    thumb:
+      "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnMSIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQyZGIiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmI4YWQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnMSkiLz48L3N2Zz4=",
+  },
+  {
+    date: "Aug 2025",
+    title: "A Day of Ocean Blues",
+    excerpt: "Snorkeling, cliff views, and a playlist made for long drives.",
+    tags: ["Ocean", "Travel", "Relax"],
+    href: "#",
+    thumb:
+      "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnMiIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNiOWU0ZmYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4N2M2ZmIiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnMikiLz48L3N2Zz4=",
+  },
+  {
+    date: "Jun 2025",
+    title: "Local Cafes Worth the Detour",
+    excerpt: "A short list of warm, cozy spots and what to order.",
+    tags: ["Food", "Cafe", "Local"],
+    href: "#",
+    thumb:
+      "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnMyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZWY3ZDkiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmY2RiOWQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnMykiLz48L3N2Zz4=",
+  },
+  {
+    date: "Mar 2025",
+    title: "Soft Rainy-Day Escapes",
+    excerpt: "A dreamy itinerary for misty afternoons and quiet bookstores.",
+    tags: ["Lifestyle", "Cozy", "Rainy"],
+    href: "#",
+    thumb:
+      "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnNCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNkYmUzZWYiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhYmI2ZDMiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNnNCkiLz48L3N2Zz4=",
+  },
+];
 ---
 
 <Layout title={`${page.data.title} — ${site.name}`} description={page.data.summary}>
@@ -26,18 +71,30 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft && data.ca
         <Content />
       </article>
 
-      <section class="feed">
-        {posts.map((post) => (
-          <article class="post">
-            <div class="meta">
-              <time datetime={post.data.date.toISOString()}>
-                {post.data.date.toISOString().slice(0, 10)}
-              </time>
+      <div class="progress" id="progress" aria-hidden="true"></div>
+
+      <section class="timeline" aria-label="Life timeline">
+        {timeline.map((entry) => (
+          <article class="entry reveal">
+            <div class="date">{entry.date}</div>
+            <div class="line">
+              <span class="dot" aria-hidden="true"></span>
             </div>
-            <h2 class="title">
-              <a href={`/posts/${post.slug}`}>{post.data.title}</a>
-            </h2>
-            {post.data.description && <p class="desc">{post.data.description}</p>}
+            <a class="card" href={entry.href} aria-label={`Read ${entry.title}`}>
+              <div class="thumb">
+                <img src={entry.thumb} alt={`${entry.title} thumbnail`} />
+              </div>
+              <div class="cardBody">
+                <h2 class="title">{entry.title}</h2>
+                <p class="desc">{entry.excerpt}</p>
+                <div class="tags">
+                  {entry.tags.map((tag) => (
+                    <span class="chip">{tag}</span>
+                  ))}
+                </div>
+                <span class="read">Read →</span>
+              </div>
+            </a>
           </article>
         ))}
       </section>
@@ -46,9 +103,11 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft && data.ca
     <SiteFooter />
   </div>
 
+  <button class="backTop" id="backTop" aria-label="Back to top">↑ Top</button>
+
   <style>
     .wrap { max-width: var(--max); margin: 0 auto; width: 100%; }
-    .content { max-width: 760px; }
+    .content { max-width: 780px; }
     .head { padding-bottom: 18px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
     h1 { margin: 0 0 6px; font-size: 34px; line-height: 1.15; letter-spacing: -0.01em; }
     .sub { margin: 0; color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 14px; }
@@ -56,11 +115,188 @@ const posts = (await getCollection("posts", ({ data }) => !data.draft && data.ca
     .prose { margin-bottom: 26px; }
     .prose :global(p) { margin: 0.9em 0; }
 
-    .post { padding: 18px 0; border-bottom: 1px solid var(--border); }
-    .meta { color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 13px; }
-    .title { margin: 8px 0 6px; font-size: 22px; line-height: 1.25; }
-    .title a { text-decoration: none; }
-    .title a:hover { text-decoration: underline; }
-    .desc { margin: 0; color: var(--muted); font-size: 15px; }
+    .progress {
+      position: sticky;
+      top: 0;
+      height: 4px;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff9a8b, #6db7ff);
+      margin-bottom: 16px;
+      z-index: 2;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 26px;
+    }
+
+    .entry {
+      display: grid;
+      grid-template-columns: 90px 26px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .date {
+      font-family: ui-sans-serif, system-ui;
+      font-size: 12px;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding-top: 6px;
+    }
+
+    .line {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .line::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: -26px;
+      width: 2px;
+      background: rgba(17, 17, 17, 0.12);
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid rgba(17, 17, 17, 0.45);
+      margin-top: 6px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .thumb {
+      width: 120px;
+      height: 86px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(17, 17, 17, 0.08);
+      background: #f7f7f7;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .cardBody { display: grid; gap: 6px; }
+
+    .title { margin: 0; font-size: 20px; line-height: 1.2; }
+    .desc { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      font-size: 12px;
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-family: ui-sans-serif, system-ui;
+    }
+
+    .read {
+      font-family: ui-sans-serif, system-ui;
+      font-size: 12px;
+      color: var(--muted2);
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      transform: translateY(-2px);
+    }
+
+    .entry:hover .thumb img { transform: scale(1.08); }
+    .entry:hover .dot { border-color: #ff7c6e; transform: scale(1.15); }
+    .entry:hover .line::before { background: rgba(255, 124, 110, 0.4); }
+    .entry:hover .read { opacity: 1; transform: translateY(0); }
+    .entry:hover .card { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1); }
+
+    .card:focus-visible {
+      outline: 2px solid rgba(109, 183, 255, 0.7);
+      outline-offset: 4px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: all 0.4s ease;
+    }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+
+    .backTop {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .backTop.show { opacity: 1; pointer-events: auto; }
+
+    @media (max-width: 720px) {
+      .entry { grid-template-columns: 1fr; }
+      .date { order: 1; }
+      .line { display: none; }
+      .card { grid-template-columns: 1fr; }
+      .thumb { width: 100%; height: 160px; }
+      .read { opacity: 1; }
+    }
   </style>
+
+  <script>
+    const progress = document.getElementById("progress");
+    const backTop = document.getElementById("backTop");
+
+    function updateProgress() {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      progress.style.width = (scrollTop / height) * 100 + "%";
+      backTop.classList.toggle("show", scrollTop > 360);
+    }
+
+    window.addEventListener("scroll", updateProgress);
+    updateProgress();
+
+    backTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("show"));
+      },
+      { threshold: 0.2 }
+    );
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
 </Layout>
