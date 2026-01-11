@@ -50,8 +50,17 @@ category: Life
         <button type="button" aria-expanded="false" aria-controls="mauna-details">Read more</button>
         <div id="mauna-details" class="details" hidden>
           Standing above the clouds at over 4,000 meters and watching the sun slowly set is breathtaking.
+          <figure class="inline">
+            <img src="/images/hawaii_1_1.jpg" alt="Mauna Kea sunset glow" loading="lazy" />
+          </figure>
           The sky transitions from gold to purple and then to a sky full of stars.
+          <figure class="inline">
+            <img src="/images/hawaii_1_2.jpg" alt="Mauna Kea twilight gradient" loading="lazy" />
+          </figure>
           You can even capture the Milky Way using long exposure on a phone.
+          <figure class="inline">
+            <img src="/images/hawaii_1_3.jpg" alt="Milky Way above Mauna Kea" loading="lazy" />
+          </figure>
           Note: The altitude is high and some people may experience altitude sickness.
         </div>
       </div>
@@ -72,11 +81,23 @@ category: Life
         <button type="button" aria-expanded="false" aria-controls="skydive-details">Read more</button>
         <div id="skydive-details" class="details" hidden>
           Another big check on my life to-do list.
+          <figure class="inline">
+            <img src="/images/hawaii_2_1.jpg" alt="Skydiving prep over Honolulu" loading="lazy" />
+          </figure>
           From the sky, the coastline looks unreal — impossibly blue.
+          <figure class="inline">
+            <img src="/images/hawaii_2_2.jpg" alt="Honolulu coastline from the sky" loading="lazy" />
+          </figure>
           The moment of jumping comes with intense weightlessness.
+          <figure class="inline">
+            <img src="/images/hawaii_2_3.jpg" alt="Skydiving freefall moment" loading="lazy" />
+          </figure>
           My instructor even did multiple flips with me in the clouds, which scared me so much that I couldn’t open my eyes.
           My heart rate and adrenaline spiked instantly.
           I paid an extra $150 for third-person photos and tipped both the instructor and the photographer.
+          <figure class="inline">
+            <img src="/images/hawaii_2_4.jpg" alt="Parachute opening over the ocean" loading="lazy" />
+          </figure>
           After the parachute opens, the instructor controls the direction and shows you different views.
           Sometimes they even let you hold the control straps and “fly” yourself.
         </div>
@@ -98,8 +119,17 @@ category: Life
         <button type="button" aria-expanded="false" aria-controls="mugen-details">Read more</button>
         <div id="mugen-details" class="details" hidden>
           A truly delightful and surprising dining experience.
+          <figure class="inline">
+            <img src="/images/hawaii_3_1.jpg" alt="Mugen appetizer course" loading="lazy" />
+          </figure>
           “Mugen” means “infinity” in Japanese, and the food lives up to its name.
+          <figure class="inline">
+            <img src="/images/hawaii_3_2.jpg" alt="Mugen main course plating" loading="lazy" />
+          </figure>
           It’s a Japanese-French fusion restaurant offering one appetizer, three courses, and a dessert.
+          <figure class="inline">
+            <img src="/images/hawaii_3_3.jpg" alt="Mugen dessert finale" loading="lazy" />
+          </figure>
           Every dish was impressive and thoughtfully crafted.
         </div>
       </div>
@@ -119,8 +149,17 @@ category: Life
         <button type="button" aria-expanded="false" aria-controls="drive-details">Read more</button>
         <div id="drive-details" class="details" hidden>
           The most recommended activity.
+          <figure class="inline">
+            <img src="/images/hawaii_4_1.jpg" alt="Coastal lookout during island drive" loading="lazy" />
+          </figure>
           Drive along the coastline, stop whenever you see a beautiful lookout,
+          <figure class="inline">
+            <img src="/images/hawaii_4_2.jpg" alt="Scenic roadside stop in Honolulu" loading="lazy" />
+          </figure>
           get off the car when you find an interesting trail,
+          <figure class="inline">
+            <img src="/images/hawaii_4_3.jpg" alt="Quiet beach stop on island drive" loading="lazy" />
+          </figure>
           and park by the beach whenever you feel like lying down and relaxing.
         </div>
       </div>
@@ -140,6 +179,9 @@ category: Life
         <button type="button" aria-expanded="false" aria-controls="volcano-details">Read more</button>
         <div id="volcano-details" class="details" hidden>
           No lights, only headlamps.
+          <figure class="inline">
+            <img src="/images/hawaii_5_1.jpg" alt="Night hike on volcanic terrain" loading="lazy" />
+          </figure>
           The volcano is completely dark, and directions are hard to find — easily the most intense experience.
           (I cried while hiking, but in the end it was totally worth it.)
           Walking on volcanic rocks in the dark is incredibly quiet,
@@ -349,6 +391,18 @@ category: Life
   }
   .details {
     margin-top: 12px;
+  }
+  .details .inline {
+    margin: 14px 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+  }
+  .details .inline img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
   .tip {
     margin-top: 12px;
