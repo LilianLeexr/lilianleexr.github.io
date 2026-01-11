@@ -120,7 +120,6 @@ const featuredProjects = [...projects]
 
       <aside class="side">
         <div class="box section-surface">
-          <div class="boxTitle sparkle-title">Profile</div>
           <div class="profile">
             <div class="avatar-wrap profile-avatar-wrapper">
               <img class="avatar" src="/images/ID.jpg" alt={`${site.name} portrait`} />
@@ -259,6 +258,7 @@ const featuredProjects = [...projects]
       position: relative;
       width: 120px;
       height: 160px;
+      overflow: visible;
     }
     .avatar {
       width: 120px;
@@ -271,7 +271,7 @@ const featuredProjects = [...projects]
     .cat-overlay {
       position: absolute;
       left: 50%;
-      top: 0;
+      top: var(--cat-top, -40px);
       transform: translateX(-50%);
       pointer-events: none;
       z-index: 5;
@@ -416,7 +416,7 @@ const featuredProjects = [...projects]
 
         overlay.style.width = `${catW}px`;
         overlay.style.height = `${catH}px`;
-        overlay.style.top = `${-catH * 0.35}px`;
+        overlay.style.setProperty("--cat-top", `${-catH * 0.35}px`);
 
         catEl.style.width = `${catW}px`;
         catEl.style.height = `${catH}px`;
