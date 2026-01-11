@@ -123,44 +123,6 @@ const featuredProjects = [...projects]
           <div class="boxTitle sparkle-title">Profile</div>
           <div class="profile">
             <div class="avatar-wrap">
-              <div class="cat-wrapper" aria-hidden="true">
-                <svg class="chi-cat" viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
-                  <g class="cat-all">
-                    <path class="cat-tail" d="M85,55 Q100,40 90,20" fill="none" />
-                    <path class="body-core" d="M20,60 Q20,30 55,30 T90,60 L85,75 Q55,85 25,75 Z" />
-                    <path class="stripe river" d="M45,32 Q50,45 45,58" />
-                    <path class="stripe river" d="M60,31 Q65,45 60,58" />
-                    <path class="stripe river" d="M75,32 Q80,45 75,58" />
-                    <path class="stripe tabby" d="M34,34 L38,38 L42,34 L46,38" />
-                    <path class="white-chest" d="M20,60 Q35,60 40,75 L25,75 Z" />
-                    <g class="legs">
-                      <rect class="leg l1" x="30" y="70" width="6" height="10" rx="3" />
-                      <rect class="leg l2" x="45" y="72" width="6" height="10" rx="3" />
-                      <rect class="leg l3" x="65" y="72" width="6" height="10" rx="3" />
-                      <rect class="leg l4" x="80" y="70" width="6" height="10" rx="3" />
-                    </g>
-                    <g class="cat-head">
-                      <circle cx="30" cy="45" r="22" class="head-fill" />
-                      <path d="M25,28 L15,5 L35,22 Z" class="ear ear-left" />
-                      <path d="M45,28 L55,5 L35,22 Z" class="ear ear-right" />
-                      <path class="forehead" d="M25,30 L30,35 L35,30 L40,35" />
-                      <ellipse cx="30" cy="53" rx="10" ry="7" class="muzzle" />
-                      <path class="eye-open" d="M22,48 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
-                      <path class="eye-open" d="M38,48 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0" />
-                      <path class="eye-happy" d="M20,50 Q24,45 28,50 M36,50 Q40,45 44,50" />
-                      <path d="M29,55 L31,55 L30,57 Z" class="nose" />
-                      <g class="whiskers">
-                        <line x1="20" y1="54" x2="6" y2="50" />
-                        <line x1="20" y1="58" x2="4" y2="58" />
-                        <line x1="20" y1="62" x2="6" y2="66" />
-                        <line x1="40" y1="54" x2="54" y2="50" />
-                        <line x1="40" y1="58" x2="56" y2="58" />
-                        <line x1="40" y1="62" x2="54" y2="66" />
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </div>
               <img class="avatar" src="/images/ID.jpg" alt={`${site.name} portrait`} />
             </div>
             <div>
@@ -302,104 +264,48 @@ const featuredProjects = [...projects]
       border: 1px solid var(--border);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
     }
-    .cat-wrapper {
+    #cat-overlay {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    #sleepy-cat {
       position: absolute;
-      top: -62px;
-      left: -100px;
-      width: 120px;
+      width: 90px;
       height: 90px;
-      z-index: 2;
-      animation: chi-sequence 12s infinite cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transform-origin: bottom center;
-    }
-    .chi-cat { width: 100%; height: 100%; }
-    .body-core { fill: #bdc3c7; }
-    .head-fill { fill: #bdc3c7; }
-    .muzzle { fill: #ffffff; }
-    .white-chest { fill: #ffffff; }
-    .leg { fill: #ffffff; stroke: #7f8c8d; stroke-width: 0.5; }
-    .stripe { fill: none; stroke: #7f8c8d; stroke-width: 2.5; opacity: 0.6; }
-    .forehead { fill: none; stroke: #7f8c8d; stroke-width: 2; }
-    .ear { fill: #95a5a6; }
-    .eye-open { fill: #2c3e50; }
-    .eye-happy { fill: none; stroke: #2c3e50; stroke-width: 2; opacity: 0; }
-    .nose { fill: #ffb6c1; }
-    .cat-tail { stroke: #7f8c8d; stroke-width: 5; stroke-linecap: round; }
-    .whiskers line { stroke: #7f8c8d; stroke-width: 1.2; }
-
-    .cat-all { transform-origin: 50px 75px; animation: squish 12s infinite ease-in-out; }
-    .cat-head { transform-origin: 30px 45px; animation: head-tilt 12s infinite ease-in-out; }
-    .cat-tail { transform-origin: 85px 55px; animation: tail-hook 12s infinite ease-in-out; }
-    .whiskers { animation: whisker-twitch 12s infinite ease-in-out; }
-    .ear-left { transform-origin: 25px 28px; animation: ear-twitch 12s infinite ease-in-out; }
-    .ear-right { transform-origin: 45px 28px; animation: ear-twitch 12s infinite ease-in-out 0.2s; }
-    .leg { transform-origin: top; animation: walk-paws 0.4s infinite alternate; }
-    .l2, .l4 { animation-delay: 0.2s; }
-    .l2, .l3 { animation: knead 12s infinite ease-in-out; }
-
-    @keyframes chi-sequence {
-      0% { transform: translateX(0) scaleY(1); opacity: 0; }
-      6% { opacity: 1; }
-      20% { transform: translateX(120px) scaleY(1); }
-      25% { transform: translateX(125px) translateY(10px) rotate(75deg); }
-      30% { transform: translateX(127px) translateY(8px) rotate(70deg); }
-      35% { transform: translateX(123px) translateY(12px) rotate(80deg); }
-      40% { transform: translateX(127px) translateY(8px) rotate(70deg); }
-      45% { transform: translateX(123px) translateY(12px) rotate(80deg); }
-      55% { transform: translateX(125px) translateY(0) rotate(0deg); }
-      65% { transform: translateX(125px) scaleY(0.95) scaleX(1.05); }
-      75% { transform: translateX(125px) scaleY(1); }
-      100% { transform: translateX(300px); opacity: 0; }
+      transform-origin: 50% 80%;
+      will-change: transform, left, top;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.15));
+      animation: catBreath 2.8s ease-in-out infinite;
     }
 
-    @keyframes squish {
-      0%, 20% { transform: scaleY(0.95); }
-      10% { transform: scaleY(1.05); }
-      25%, 60% { transform: scaleY(1); }
-      70% { transform: scaleY(0.98); }
-      100% { transform: scaleY(1); }
+    #cat-zzz {
+      position: absolute;
+      font-size: 14px;
+      opacity: 0;
+      transform: translateY(0);
+      color: rgba(90, 90, 120, 0.65);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      animation: zzzFloat 3.2s ease-in-out infinite;
     }
 
-    @keyframes walk-paws {
-      from { transform: translateY(0); }
-      to { transform: translateY(-4px); }
+    @keyframes catBreath {
+      0%, 100% { transform: translateY(0px) scaleY(1); }
+      50% { transform: translateY(1.5px) scaleY(1.03); }
     }
 
-    @keyframes tail-hook {
-      0%, 20% { transform: rotate(-5deg); }
-      40% { transform: rotate(15deg) scaleX(1.1); }
-      100% { transform: rotate(5deg); }
-    }
-
-    @keyframes head-tilt {
-      0%, 20% { transform: rotate(0deg); }
-      24% { transform: rotate(-8deg); }
-      28% { transform: rotate(0deg); }
-      60% { transform: rotate(3deg); }
-      70% { transform: rotate(0deg); }
-    }
-
-    @keyframes ear-twitch {
-      0%, 22% { transform: rotate(0deg); }
-      26% { transform: rotate(-6deg); }
-      30% { transform: rotate(0deg); }
-      100% { transform: rotate(0deg); }
-    }
-
-    @keyframes whisker-twitch {
-      0%, 24% { transform: translateY(0); }
-      28% { transform: translateY(-1px); }
-      32% { transform: translateY(0); }
-      100% { transform: translateY(0); }
-    }
-
-    @keyframes knead {
-      0%, 40% { transform: translateY(0); }
-      44% { transform: translateY(2px); }
-      48% { transform: translateY(0); }
-      52% { transform: translateY(2px); }
-      56% { transform: translateY(0); }
-      100% { transform: translateY(0); }
+    @keyframes zzzFloat {
+      0% { opacity: 0; transform: translateY(6px) scale(0.98); }
+      20% { opacity: 0.65; }
+      55% { opacity: 0.65; transform: translateY(-8px) scale(1); }
+      80% { opacity: 0; }
+      100% { opacity: 0; transform: translateY(-14px) scale(1.02); }
     }
     .name { font-weight: 600; color: var(--text); }
     .list { margin: 0; padding-left: 18px; color: var(--muted); }
@@ -471,4 +377,108 @@ const featuredProjects = [...projects]
     .status { margin-left: 8px; font-weight: 600; color: var(--text); }
     .pubTitle { font-size: 18px; line-height: 1.35; }
   </style>
+
+  <div id="cat-overlay" aria-hidden="true">
+    <div id="sleepy-cat"></div>
+    <div id="cat-zzz">Zzz</div>
+  </div>
+
+  <script src="https://unpkg.com/lottie-web/build/player/lottie.min.js"></script>
+
+  <script is:inline>
+    (function () {
+      const avatarContainerSelector = ".avatar";
+      const USE_LOTTIE = true;
+      const LOTTIE_JSON_PATH = "/assets/anim/cat_american_shorthair.json";
+
+      let overlay;
+      let catEl;
+      let zzzEl;
+      let avatarEl;
+      let ro;
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function ensureOverlay() {
+        overlay = document.getElementById("cat-overlay");
+        catEl = document.getElementById("sleepy-cat");
+        zzzEl = document.getElementById("cat-zzz");
+      }
+
+      function findAvatar() {
+        return document.querySelector(avatarContainerSelector);
+      }
+
+      function updatePosition() {
+        avatarEl = findAvatar();
+        if (!avatarEl) return;
+
+        const box = avatarEl.getBoundingClientRect();
+        const catW = clamp(box.width * 0.26, 56, 110);
+        const catH = catW;
+
+        catEl.style.width = `${catW}px`;
+        catEl.style.height = `${catH}px`;
+
+        const x = box.left + box.width * 0.5 - catW / 2;
+        const y = box.top - catH * 0.35;
+
+        catEl.style.left = `${x}px`;
+        catEl.style.top = `${y}px`;
+        zzzEl.style.left = `${x + catW * 0.7}px`;
+        zzzEl.style.top = `${y - catH * 0.1}px`;
+      }
+
+      function initObservers() {
+        if (window.ResizeObserver) {
+          ro = new ResizeObserver(() => updatePosition());
+          if (avatarEl) ro.observe(avatarEl);
+        }
+        window.addEventListener("resize", updatePosition, { passive: true });
+        window.addEventListener("scroll", updatePosition, { passive: true });
+      }
+
+      function initLottie() {
+        if (!USE_LOTTIE) return;
+        if (!window.lottie) return;
+        catEl.innerHTML = "";
+        window.lottie.loadAnimation({
+          container: catEl,
+          renderer: "svg",
+          loop: true,
+          autoplay: true,
+          path: LOTTIE_JSON_PATH,
+        });
+      }
+
+      function initCssFallback() {
+        if (USE_LOTTIE) return;
+        catEl.innerHTML = `
+          <svg viewBox="0 0 200 140" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40,95 C55,55 90,45 120,60 C150,75 165,95 150,110 C135,125 70,125 52,112 C42,105 38,102 40,95Z"
+                  fill="rgba(170,170,175,0.9)"/>
+            <path d="M70,70 C78,60 88,58 96,66" stroke="rgba(255,255,255,0.8)" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="92" cy="80" r="4" fill="rgba(255,255,255,0.8)"/>
+            <path d="M150,96 C175,100 180,120 160,126" fill="none" stroke="rgba(150,150,160,0.9)" stroke-width="14" stroke-linecap="round"/>
+          </svg>
+        `;
+      }
+
+      function boot() {
+        ensureOverlay();
+        updatePosition();
+        initObservers();
+        initLottie();
+        initCssFallback();
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", boot);
+      } else {
+        boot();
+      }
+    })();
+  </script>
 </Layout>

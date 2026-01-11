@@ -18,6 +18,13 @@ const timeline = [
     href: "/posts/life-weekly-observation",
     thumb: "/images/hawaii_0.jpg",
   },
+  {
+    date: "Nov 2025",
+    title: "I wish I’d built this site sooner — my old memories are 404 not found.",
+    excerpt: "A short note to my future self about remembering the little things.",
+    tags: ["Reflection"],
+    href: "#",
+  },
 ];
 ---
 
@@ -35,7 +42,6 @@ const timeline = [
         <Content />
       </article>
 
-      <h2 class="timeline-title">I wish I’d built this site sooner — my old memories are 404 not found.</h2>
       <div class="progress" id="progress" aria-hidden="true"></div>
 
       <section class="timeline" aria-label="Life timeline">
@@ -46,17 +52,21 @@ const timeline = [
               <span class="dot" aria-hidden="true"></span>
             </div>
             <a class="card" href={entry.href} aria-label={`Read ${entry.title}`}>
-              <div class="thumb">
-                <img src={entry.thumb} alt={`${entry.title} thumbnail`} />
-              </div>
+              {entry.thumb && (
+                <div class="thumb">
+                  <img src={entry.thumb} alt={`${entry.title} thumbnail`} />
+                </div>
+              )}
               <div class="cardBody">
                 <h2 class="title">{entry.title}</h2>
-                <p class="desc">{entry.excerpt}</p>
-                <div class="tags">
-                  {entry.tags.map((tag) => (
-                    <span class="chip">{tag}</span>
-                  ))}
-                </div>
+                {entry.excerpt && <p class="desc">{entry.excerpt}</p>}
+                {entry.tags && (
+                  <div class="tags">
+                    {entry.tags.map((tag) => (
+                      <span class="chip">{tag}</span>
+                    ))}
+                  </div>
+                )}
                 <span class="read">Read →</span>
               </div>
             </a>
