@@ -122,8 +122,12 @@ const featuredProjects = [...projects]
         <div class="box section-surface">
           <div class="boxTitle sparkle-title">Profile</div>
           <div class="profile">
-            <div class="avatar-wrap">
+            <div class="avatar-wrap profile-avatar-wrapper">
               <img class="avatar" src="/images/ID.jpg" alt={`${site.name} portrait`} />
+              <div class="cat-overlay" id="catOverlay" aria-hidden="true">
+                <div class="cat-lottie" id="catLottie"></div>
+                <div class="cat-zzz" id="catZzz">Zzz</div>
+              </div>
             </div>
             <div>
               <p class="muted name">{site.name}</p>
@@ -247,44 +251,45 @@ const featuredProjects = [...projects]
     .muted { color: var(--muted); margin: 0 0 8px; font-size: 14px; }
     .profile {
       display: grid;
-      grid-template-columns: 92px 1fr;
+      grid-template-columns: 120px 1fr;
       gap: 12px;
       align-items: center;
     }
     .avatar-wrap {
       position: relative;
-      width: 92px;
-      height: 92px;
+      width: 120px;
+      height: 160px;
     }
     .avatar {
-      width: 92px;
-      height: 92px;
-      border-radius: 18px;
+      width: 120px;
+      height: 160px;
+      border-radius: 22px;
       object-fit: cover;
       border: 1px solid var(--border);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
     }
-    #cat-overlay {
-      position: fixed;
-      left: 0;
+    .cat-overlay {
+      position: absolute;
+      left: 50%;
       top: 0;
-      width: 0;
-      height: 0;
+      transform: translateX(-50%);
       pointer-events: none;
-      z-index: 50;
+      z-index: 5;
     }
 
-    #sleepy-cat {
+    .cat-lottie {
       position: absolute;
       width: 90px;
       height: 90px;
       transform-origin: 50% 80%;
-      will-change: transform, left, top;
-      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.15));
+      will-change: transform;
+      background: transparent !important;
       animation: catBreath 2.8s ease-in-out infinite;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.15));
     }
+    .cat-lottie svg { background: transparent !important; }
 
-    #cat-zzz {
+    .cat-zzz {
       position: absolute;
       font-size: 14px;
       opacity: 0;
@@ -378,70 +383,57 @@ const featuredProjects = [...projects]
     .pubTitle { font-size: 18px; line-height: 1.35; }
   </style>
 
-  <div id="cat-overlay" aria-hidden="true">
-    <div id="sleepy-cat"></div>
-    <div id="cat-zzz">Zzz</div>
-  </div>
-
   <script src="https://unpkg.com/lottie-web/build/player/lottie.min.js"></script>
 
   <script is:inline>
     (function () {
-      const avatarContainerSelector = ".avatar";
-      const USE_LOTTIE = true;
+      const wrapperSelector = ".profile-avatar-wrapper";
       const LOTTIE_JSON_PATH = "/assets/anim/cat_american_shorthair.json";
 
+      let wrapper;
       let overlay;
       let catEl;
       let zzzEl;
-      let avatarEl;
       let ro;
 
       function clamp(value, min, max) {
         return Math.max(min, Math.min(max, value));
       }
 
-      function ensureOverlay() {
-        overlay = document.getElementById("cat-overlay");
-        catEl = document.getElementById("sleepy-cat");
-        zzzEl = document.getElementById("cat-zzz");
+      function setup() {
+        wrapper = document.querySelector(wrapperSelector);
+        if (!wrapper) return;
+        overlay = wrapper.querySelector("#catOverlay");
+        catEl = wrapper.querySelector("#catLottie");
+        zzzEl = wrapper.querySelector("#catZzz");
       }
 
-      function findAvatar() {
-        return document.querySelector(avatarContainerSelector);
-      }
-
-      function updatePosition() {
-        avatarEl = findAvatar();
-        if (!avatarEl) return;
-
-        const box = avatarEl.getBoundingClientRect();
-        const catW = clamp(box.width * 0.26, 56, 110);
+      function layout() {
+        if (!wrapper || !catEl || !overlay) return;
+        const box = wrapper.getBoundingClientRect();
+        const catW = clamp(box.width * 0.55, 120, 220);
         const catH = catW;
+
+        overlay.style.width = `${catW}px`;
+        overlay.style.height = `${catH}px`;
+        overlay.style.top = `${-catH * 0.35}px`;
 
         catEl.style.width = `${catW}px`;
         catEl.style.height = `${catH}px`;
-
-        const x = box.left + box.width * 0.5 - catW / 2;
-        const y = box.top - catH * 0.35;
-
-        catEl.style.left = `${x}px`;
-        catEl.style.top = `${y}px`;
-        zzzEl.style.left = `${x + catW * 0.7}px`;
-        zzzEl.style.top = `${y - catH * 0.1}px`;
+        zzzEl.style.left = `${catW * 0.7}px`;
+        zzzEl.style.top = `${-catH * 0.1}px`;
       }
 
       function initObservers() {
         if (window.ResizeObserver) {
-          ro = new ResizeObserver(() => updatePosition());
-          if (avatarEl) ro.observe(avatarEl);
+          ro = new ResizeObserver(() => layout());
+          if (wrapper) ro.observe(wrapper);
         }
-        window.addEventListener("resize", updatePosition, { passive: true });
-        window.addEventListener("scroll", updatePosition, { passive: true });
+        window.addEventListener("resize", layout, { passive: true });
+        window.addEventListener("scroll", layout, { passive: true });
       }
 
       function initLottie() {
-        if (!USE_LOTTIE) return;
         if (!window.lottie) return;
         catEl.innerHTML = "";
         window.lottie.loadAnimation({
@@ -453,25 +445,11 @@ const featuredProjects = [...projects]
         });
       }
 
-      function initCssFallback() {
-        if (USE_LOTTIE) return;
-        catEl.innerHTML = `
-          <svg viewBox="0 0 200 140" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <path d="M40,95 C55,55 90,45 120,60 C150,75 165,95 150,110 C135,125 70,125 52,112 C42,105 38,102 40,95Z"
-                  fill="rgba(170,170,175,0.9)"/>
-            <path d="M70,70 C78,60 88,58 96,66" stroke="rgba(255,255,255,0.8)" stroke-width="6" stroke-linecap="round"/>
-            <circle cx="92" cy="80" r="4" fill="rgba(255,255,255,0.8)"/>
-            <path d="M150,96 C175,100 180,120 160,126" fill="none" stroke="rgba(150,150,160,0.9)" stroke-width="14" stroke-linecap="round"/>
-          </svg>
-        `;
-      }
-
       function boot() {
-        ensureOverlay();
-        updatePosition();
+        setup();
+        layout();
         initObservers();
         initLottie();
-        initCssFallback();
       }
 
       if (document.readyState === "loading") {
