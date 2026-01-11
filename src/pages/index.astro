@@ -95,11 +95,6 @@ const featuredProjects = [...projects]
             {publications.map((pub) => (
               <li>
                 <a class="pubCard" href={pub.href} target="_blank" rel="noopener">
-                  <div class="pubMedia">
-                    <img class="pubCover" src={pub.cover} alt={`${pub.title} cover`} />
-                    <img class="pubFigure" src={pub.figure} alt={`${pub.title} figure`} />
-                    <span class="pubBadge">↗</span>
-                  </div>
                   <div class="pubBody">
                     <div class="pubMeta">
                       <span class="pubAuthors">{pub.authors}</span>
@@ -110,6 +105,11 @@ const featuredProjects = [...projects]
                       <span class="status">{pub.status}</span>
                     </div>
                     <div class="pubTitle">{pub.title}</div>
+                  </div>
+                  <div class="pubMedia">
+                    <img class="pubCover" src={pub.cover} alt={`${pub.title} cover`} />
+                    <img class="pubFigure" src={pub.figure} alt={`${pub.title} figure`} />
+                    <span class="pubBadge">↗</span>
                   </div>
                 </a>
               </li>
@@ -286,6 +286,7 @@ const featuredProjects = [...projects]
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
       display: grid;
       gap: 0;
+      transition: box-shadow 0.15s ease;
     }
     .pubCover,
     .pubFigure {
@@ -293,6 +294,8 @@ const featuredProjects = [...projects]
       height: auto;
       object-fit: cover;
       display: block;
+      transform: scale(0.98);
+      transition: transform 0.2s ease;
     }
     .pubCover { filter: saturate(0.95); }
     .pubFigure { border-top: 1px solid rgba(0, 0, 0, 0.08); }
@@ -313,6 +316,10 @@ const featuredProjects = [...projects]
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       transform: translateY(-1px);
       transition: box-shadow 0.15s ease, transform 0.15s ease;
+    }
+    .pubCard:hover .pubCover,
+    .pubCard:hover .pubFigure {
+      transform: scale(1.03);
     }
     .pubBody { display: grid; gap: 6px; }
     .pubMeta { color: var(--muted); font-family: ui-sans-serif, system-ui; font-size: 12px; }
